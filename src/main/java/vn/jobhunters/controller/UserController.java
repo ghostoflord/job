@@ -1,10 +1,9 @@
 package vn.jobhunters.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,8 +23,11 @@ import vn.jobhunters.service.error.IdInvalidException;
 public class UserController {
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    private PasswordEncoder passwordEncoder;
+
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // get list user
@@ -42,8 +44,11 @@ public class UserController {
 
     // create user
     @PostMapping("/users")
-    public ResponseEntity<User> updateUser(@RequestBody User postUser) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.handleCreateUser(postUser));
+    public ResponseEntity<User> createUser(@RequestBody User postUser) {
+        String hashPassword = this.passwordEncoder.encode(postUser.getPassword());
+        postUser.setPassword(hashPassword);
+        User ghost = this.userService.handleCreateUser(postUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ghost);
     }
 
     // delete user
