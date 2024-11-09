@@ -3,8 +3,12 @@ package vn.jobhunters.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import vn.jobhunters.domain.User;
+import vn.jobhunters.domain.dto.Meta;
+import vn.jobhunters.domain.dto.ResultPaginationDTO;
 import vn.jobhunters.repository.UserRepository;
 
 @Service
@@ -21,8 +25,20 @@ public class UserService {
     }
 
     // get all user
-    public List<User> fetchAllUserList() {
-        return this.userRepository.findAll();
+    public ResultPaginationDTO fetchAllUserList(Pageable pageable) {
+        Page<User> pageUser = this.userRepository.findAll(pageable);
+        ResultPaginationDTO rs = new ResultPaginationDTO();
+        Meta mt = new Meta();
+        mt.setPage(pageUser.getNumber() + 1);
+        mt.setPageSize(pageUser.getSize());
+
+        mt.setPages(pageUser.getTotalPages());
+        mt.setTotal(pageUser.getTotalElements());
+
+        rs.setMeta(mt);
+        rs.setResult(pageUser.getContent());
+
+        return rs;
     }
 
     // get user by id
