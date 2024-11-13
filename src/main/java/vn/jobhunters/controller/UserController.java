@@ -25,6 +25,7 @@ import vn.jobhunters.domain.User;
 import vn.jobhunters.domain.dto.ResultPaginationDTO;
 import vn.jobhunters.service.UserService;
 import vn.jobhunters.service.error.IdInvalidException;
+import vn.jobhunters.util.annotation.ApiMessage;
 
 @RestController
 @RequestMapping("/api/5")
@@ -40,6 +41,7 @@ public class UserController {
 
     // get list user
     @GetMapping("/users")
+    @ApiMessage("fetch all users")
     public ResponseEntity<ResultPaginationDTO> getAllUser(
             @Filter Specification<User> spec,
             Pageable pageable) {
