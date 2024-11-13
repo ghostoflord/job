@@ -32,6 +32,7 @@ dependencies {
 	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 	implementation("org.springframework.boot:spring-boot-starter-mail:3.3.3")
+	implementation("com.turkraft.springfilter:jpa:3.1.7")
 implementation("org.springframework.boot:spring-boot-starter-validation:3.3.3")
 
 	compileOnly("org.projectlombok:lombok")
