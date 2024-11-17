@@ -42,4 +42,5 @@ public class AuthController {
         res.setAccessToken(access_token);
         return ResponseEntity.ok().body(res);
     }
+    
 }
