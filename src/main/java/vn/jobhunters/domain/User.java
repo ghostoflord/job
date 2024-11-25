@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,4 +22,6 @@ public class User {
     private String address;
     private int age;
     private String password;
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String refreshToken;
 }
